@@ -1,0 +1,16 @@
+---
+- name: Read Redfish API
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Read a quote from Redfish API
+      uri:
+        url: http://127.0.0.1:2224/redfish/v1/
+        method: GET
+        return_content: yes
+      register: redfish_response
+
+    - name: Print the  data received
+      debug:
+        var: redfish_response
