@@ -1,0 +1,34 @@
+---
+- name: Wednesday Warmup
+  hosts: redfish
+  connection: local
+  gather_facts: false
+  
+  tasks:
+
+  - name: Get CPU model
+    community.general.redfish_info:
+      category: Systems
+      command: GetCpuInventory
+      baseuri: "{{ baseuri }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    register: cpu_info_result
+
+  - name: Debug CPU result
+    ansible.builtin.debug:
+      var: cpu_info_result
+
+  - name: Restart system power gracefully
+    community.general.redfish_command:
+      category: Systems
+      command: PowerGracefulRestart
+      resource_id: 437XR1138R2
+      baseuri: "{{ baseuri }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    register: restart_result
+
+  - name: Debug CPU result
+    ansible.builtin.debug:
+      var: restart_result

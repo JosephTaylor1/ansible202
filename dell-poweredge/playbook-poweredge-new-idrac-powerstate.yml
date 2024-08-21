@@ -1,0 +1,19 @@
+---
+- name: Read RedFish Power State using script module 
+  hosts: idrac-host1
+  connection: local  
+  gather_facts: no
+
+  tasks:
+    - name: Call GetSetPowerState python command
+      dellemc.openmanage.redfish_powerstate:
+        baseuri: "{{ idrac_ip }}"
+        username: "{{ idrac_username }}"
+        password: "{{ idrac_password }}"
+        validate_certs: False
+        reset_type: "On"
+      register: power_state
+
+    - name: Print the  data received
+      debug:
+        var: power_state
